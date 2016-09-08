@@ -1,2 +1,6 @@
 .idea/*
+.idea/"*.pyc" 
 .idea/
+MicrosoftWebDriver.exe
+superlists/db.sqlite3
+*.pyc
