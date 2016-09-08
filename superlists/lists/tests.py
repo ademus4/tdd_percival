@@ -16,7 +16,7 @@ class HomePageTest(TestCase):
     def test_home_page_returns_correct_html(self):
         request = HttpRequest()
         response = home_page(request)
-        expected_html = render_to_string('home.html')
+        expected_html = expected_html = render_to_string('home.html', request=request)
         self.assertEqual(response.content.decode(), expected_html)
 
     def test_home_page_can_save_a_POST_request(self):
@@ -26,10 +26,15 @@ class HomePageTest(TestCase):
 
         response = home_page(request)
 
+        self.assertEqual(Item.objects.count(), 1)  # 1
+        new_item = Item.objects.first()  # 2
+        self.assertEqual(new_item.text, 'A new list item')  # 3
+
         self.assertIn('A new list item', response.content.decode())
         expected_html = render_to_string(
             'home.html',
-            {'new_item_text': 'A new list item'}
+            {'new_item_text': 'A new list item'},
+            request=request
         )
         self.assertEqual(response.content.decode(), expected_html)
 
