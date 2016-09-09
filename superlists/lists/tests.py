@@ -19,11 +19,6 @@ class HomePageTest(TestCase):
         expected_html = expected_html = render_to_string('home.html', request=request)
         self.assertEqual(response.content.decode(), expected_html)
 
-    def test_home_page_only_saves_items_when_necessary(self):
-        request = HttpRequest()
-        home_page(request)
-        self.assertEqual(Item.objects.count(), 0)
-
 
 class ItemModelTest(TestCase):
 
@@ -55,7 +50,6 @@ class NewListTest(TestCase):
         self.assertEqual(Item.objects.count(), 1)
         new_item = Item.objects.first()
         self.assertEqual(new_item.text, 'A new list item')
-
 
     def test_redirects_after_POST(self):
         response = self.client.post(
